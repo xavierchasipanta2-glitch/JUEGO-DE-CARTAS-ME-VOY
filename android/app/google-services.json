@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "512002908776",
+    "project_id": "juego-de-cartas-me-voy-60501",
+    "storage_bucket": "juego-de-cartas-me-voy-60501.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512002908776:android:c362a37f1571d7acff91dd",
+        "android_client_info": {
+          "package_name": "com.mevoy.banca.me_voy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "512002908776-tppuoqbte3752lu6a0q3ov67eq0q23il.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2rFjvmTH1f1yPcH0pd8ZEljN9tbumc1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "512002908776-tppuoqbte3752lu6a0q3ov67eq0q23il.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

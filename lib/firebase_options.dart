@@ -30,19 +30,18 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'REEMPLAZAR_CON_TU_API_KEY_ANDROID',
-    appId: '1:000000000000:android:0000000000000000000000',
-    messagingSenderId: '000000000000',
-    projectId: _placeholderProjectId,
-    storageBucket: 'REEMPLAZAR_CON_TU_PROJECT_ID.appspot.com',
+    apiKey: 'AIzaSyC2rFjvmTH1f1yPcH0pd8ZEljN9tbumc1E',
+    appId: '1:512002908776:android:c362a37f1571d7acff91dd',
+    messagingSenderId: '512002908776',
+    projectId: 'juego-de-cartas-me-voy-60501',
+    storageBucket: 'juego-de-cartas-me-voy-60501.firebasestorage.app',
   );
-
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'REEMPLAZAR_CON_TU_API_KEY_WEB',
-    appId: '1:000000000000:web:0000000000000000000000',
-    messagingSenderId: '000000000000',
-    projectId: _placeholderProjectId,
-    authDomain: 'REEMPLAZAR_CON_TU_PROJECT_ID.firebaseapp.com',
-    storageBucket: 'REEMPLAZAR_CON_TU_PROJECT_ID.appspot.com',
+    apiKey: 'AIzaSyAiUWB8SOyOcM3elbN9q7t3uPcIIEAsfNE',
+    appId: '1:512002908776:web:352abbf694f97cccff91dd',
+    messagingSenderId: '512002908776',
+    projectId: 'juego-de-cartas-me-voy-60501',
+    authDomain: 'juego-de-cartas-me-voy-60501.firebaseapp.com',
+    storageBucket: 'juego-de-cartas-me-voy-60501.firebasestorage.app',
   );
 }

@@ -1,0 +1,16 @@
+{
+  "name": "me-voy-cloud-functions",
+  "description": "Cloud Functions transaccionales e idempotentes para el banco virtual y liquidación de «Me Voy»",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions,firestore,auth",
+    "deploy": "firebase deploy --only functions,firestore:rules,firestore:indexes"
+  },
+  "engines": {
+    "node": "20"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^6.0.1"
+  }
+}

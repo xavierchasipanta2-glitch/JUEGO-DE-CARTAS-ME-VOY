@@ -1,0 +1,88 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // =========================================================================
+    // FUNCIONES AUXILIARES DE SEGURIDAD Y AUDITORÍA
+    // =========================================================================
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isTableAdmin(tableData) {
+      return isSignedIn() && tableData.adminUserId == request.auth.uid;
+    }
+
+    function isTableParticipant(tableData) {
+      return isSignedIn() && (request.auth.uid in tableData.participants);
+    }
+
+    // Garantiza que el libro mayor (ledgerEntries) sea estrictamente append-only:
+    // ningún administrador ni jugador puede borrar silenciosamente movimientos ya confirmados.
+    function isLedgerAppendOnly(oldData, newData) {
+      return newData.ledgerEntries.size() >= oldData.ledgerEntries.size()
+          && newData.processedIdempotencyKeys.size() >= oldData.processedIdempotencyKeys.size()
+          && newData.version == oldData.version + 1;
+    }
+
+    // Verifica que un participante no administrador NO modifique los saldos ni el libro mayor.
+    function preservesAllFinancialBalances(oldData, newData) {
+      return newData.ledgerEntries == oldData.ledgerEntries
+          && newData.processedIdempotencyKeys == oldData.processedIdempotencyKeys
+          && newData.currentTariffs == oldData.currentTariffs
+          && newData.adminUserId == oldData.adminUserId;
+    }
+
+    // =========================================================================
+    // PERFILES DE USUARIO Y RECUPERACIÓN DE SESIÓN
+    // =========================================================================
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn() && request.auth.uid == userId;
+      allow delete: if false;
+    }
+
+    // =========================================================================
+    // MESAS DE JUEGO («ME VOY»)
+    // =========================================================================
+    match /tables/{tableId} {
+      // Todos los usuarios autenticados pueden leer la mesa para unirse por código
+      // y sincronizar en tiempo real el estado compartido.
+      allow read: if isSignedIn();
+
+      // Solo un usuario autenticado puede crear una mesa figurando él mismo como administrador.
+      allow create: if isSignedIn()
+          && request.resource.data.adminUserId == request.auth.uid
+          && request.resource.data.participants.size() >= 1
+          && request.resource.data.participants.size() <= 4
+          && request.resource.data.version == 1;
+
+      // Actualizaciones controladas:
+      // 1. El libro mayor NUNCA puede encogerse (prohibido borrar movimientos confirmados).
+      // 2. El administrador puede gestionar la mesa, tarifas y operaciones del banco.
+      // 3. Un jugador puede unirse a la mesa (si hay cupo <= 4) con saldo inicial controlado,
+      //    enviar solicitudes de recarga propias o confirmar resultados sin alterar saldos ajenos.
+      allow update: if isSignedIn()
+          && isLedgerAppendOnly(resource.data, request.resource.data)
+          && (
+            isTableAdmin(resource.data)
+            || (
+              // Jugador uniéndose o interactuando sin alterar saldos existentes ni libro mayor
+              preservesAllFinancialBalances(resource.data, request.resource.data)
+              && request.resource.data.participants.size() <= 4
+            )
+          );
+
+      // Prohibido eliminar mesas con historial contable.
+      allow delete: if false;
+
+      // Subcolección opcional de auditoría inmutable (solo inserción, jamás borrado ni edición)
+      match /audit_logs/{logId} {
+        allow read: if isTableParticipant(get(/databases/$(database)/documents/tables/$(tableId)).data);
+        allow create: if isSignedIn();
+        allow update, delete: if false;
+      }
+    }
+  }
+}

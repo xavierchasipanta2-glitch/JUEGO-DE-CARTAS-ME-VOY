@@ -1,12 +1,18 @@
 {
-    "name": "me_voy",
-    "short_name": "me_voy",
-    "start_url": ".",
+    "name": "Me Voy — Banco Virtual Rummy",
+    "short_name": "Me Voy",
+    "start_url": "./",
+    "scope": "./",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#0A2E23",
+    "theme_color": "#0A2E23",
+    "description": "Banco virtual multijugador para Rummy. Administra créditos contables internos, calcula premios de cartas y liquida deudas en tiempo real.",
     "orientation": "portrait-primary",
+    "categories": [
+        "games",
+        "finance",
+        "utilities"
+    ],
     "prefer_related_applications": false,
     "icons": [
         {

@@ -1,46 +1,127 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="description" content="Me Voy — Banco Virtual Multijugador para Rummy. Administra créditos internos, calcula premios y liquida deudas en tiempo real.">
 
-  <!-- iOS meta tags & icons -->
+  <!-- PWA Theme Color -->
+  <meta name="theme-color" content="#0A2E23">
+  <meta name="msapplication-navbutton-color" content="#0A2E23">
+
+  <!-- iOS PWA Meta Tags & Icons -->
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="me_voy">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Me Voy">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Me Voy — Banco Virtual Rummy">
+  <meta property="og:description" content="Banco virtual multijugador para Rummy con liquidación atómica en tiempo real.">
+  <meta property="og:type" content="website">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>me_voy</title>
+  <title>Me Voy — Banco Virtual Rummy</title>
   <link rel="manifest" href="manifest.json">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #0A2E23;
+      color: #FFFFFF;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    #loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: opacity 0.4s ease-out;
+    }
+
+    .logo-badge {
+      width: 76px;
+      height: 76px;
+      background: linear-gradient(135deg, #F4C430 0%, #D99B00 100%);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(244, 196, 48, 0.35);
+      margin-bottom: 18px;
+    }
+
+    .logo-badge svg {
+      width: 44px;
+      height: 44px;
+      fill: #1A1600;
+    }
+
+    .app-title {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: 2.5px;
+      color: #F4C430;
+      margin: 0 0 6px 0;
+    }
+
+    .app-subtitle {
+      font-size: 13.5px;
+      color: rgba(255, 255, 255, 0.75);
+      margin: 0 0 24px 0;
+    }
+
+    .spinner {
+      width: 34px;
+      height: 34px;
+      border: 3.5px solid rgba(255, 255, 255, 0.12);
+      border-top-color: #F4C430;
+      border-radius: 50%;
+      animation: spin 0.9s cubic-bezier(0.6, 0.2, 0.4, 0.8) infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
+  <div id="loading-container">
+    <div class="logo-badge">
+      <svg viewBox="0 0 24 24">
+        <path d="M19.5 21a3 3 0 0 0 3-3v-4.5a3 3 0 0 0-3-3h-1.5V6a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h13.5zM6 5h9a1 1 0 0 1 1 1v4.5H6V5zm0 7.5h10V18a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-4.5a1 1 0 0 1 1-1zm12 0h1.5a1 1 0 0 1 1 1V18a1 1 0 0 1-1 1H18v-6.5z"/>
+      </svg>
+    </div>
+    <h1 class="app-title">ME VOY</h1>
+    <p class="app-subtitle">Cargando mesa y banco virtual...</p>
+    <div class="spinner"></div>
+  </div>
 
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var loader = document.getElementById('loading-container');
+      if (loader) {
+        loader.style.opacity = '0';
+        setTimeout(function() { loader.remove(); }, 400);
+      }
+    });
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

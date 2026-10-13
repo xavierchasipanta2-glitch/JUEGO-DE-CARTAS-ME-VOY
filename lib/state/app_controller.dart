@@ -110,8 +110,10 @@ class AppController extends ChangeNotifier {
     }
     _tableSubscription = _repository.watchTable(tableId).listen(
       (updatedTable) {
-        _activeTable = updatedTable;
-        notifyListeners();
+        if (updatedTable != null) {
+          _activeTable = updatedTable;
+          notifyListeners();
+        }
       },
       onError: (Object err) {
         _errorMessage = 'Error de sincronización en tiempo real: $err';

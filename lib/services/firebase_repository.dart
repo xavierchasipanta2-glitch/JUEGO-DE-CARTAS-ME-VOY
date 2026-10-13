@@ -287,10 +287,11 @@ class FirebaseGameRepository implements GameBackendRepository {
 
   @override
   Stream<GameTable?> watchTable(String tableId) {
-    return _tablesCol.doc(tableId).snapshots().map((snap) {
-      if (!snap.exists || snap.data() == null) return null;
-      return GameTable.fromMap(snap.data()!);
-    });
+    return _tablesCol
+        .doc(tableId)
+        .snapshots()
+        .where((snap) => snap.exists && snap.data() != null)
+        .map((snap) => GameTable.fromMap(snap.data()!));
   }
 
   Future<GameTable> _runAtomicTableMutation(
